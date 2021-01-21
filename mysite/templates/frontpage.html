@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    
+<section class="hero is-medium is-primary is-bold">
+    
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Wellcome To Our Events Application</h1>
+            
+            {% if request.user.is_authenticated %}
+                <h2 class="subtitle">We are happy to be with us {{user.username}}</h2>
+            {% else %}
+                <h2 class="subtitle">We will be happy if you join us, Try to 
+                    <a href="/accounts/signup/"><strong>Sign up</strong></a> now 
+                </h2>
+            {% endif %}                
+        </div>
+    </div>
+
+</section>
+
+{% endblock  %}
+    

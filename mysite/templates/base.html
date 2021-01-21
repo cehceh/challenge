@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Events Application</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+       
+        <link rel="icon" type="image/png" href="{% static 'favicon/favicon.ico' %}">
+        
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+
+        <link rel="icon" type="image/png" href="{% static 'favicon/favicon.ico' %}">
+        
+        <!-- scripts for VUE -->
+        <script src="{% static 'vue/vue.js' %}"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+        <script src="https://cdnjs.cloudfare.com/ajax/libs/axios/0.19.2/axios.min.js">
+        </script>
+
+        <!-- <link rel="stylesheet" href="{% static 'styles/main.css' %}" -->
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg has-background-primary-light has-navbar-fixed-top" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/"><strong>Events Application</strong></a>
+            </div>
+           
+            <div class="navbar-menu" id="navbarCollapse">
+                {% if request.user.is_authenticated %}
+                    <div class="navbar-start">
+                        <a href="{% url 'events:create_event' %}" class="navbar-item">Create Events</a>
+                        <a href="{% url 'events:add_participant' %}" class="navbar-item">Create Participants</a>
+                        <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Events</a>
+                    </div>
+                {% endif %}
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            {% if request.user.is_authenticated %}
+                                <p><strong>Wellcome : {{ user.username }}</strong></p> &nbsp;&nbsp;&nbsp;
+                                <a href="{% url 'account_logout' %}" class="button is-danger">Log out</a>
+                            {% else %}
+                                <a href="{% url 'account_signup' %}" class="button is-primary">
+                                    <strong>Sign up</strong></a>
+                                <a href="{% url 'account_login' %}" class="button is-dark">Log in</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+        <section class="section">
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <article class="message is-{{ message.tags }}">
+                        <div class="message-body">
+                            {{ message }}
+                        </div>
+                    </article>
+                
+                {% endfor %}
+            {% endif %}
+        </section>
+        
+        <div class="align-content-center printFrame" style="background-color:transparent; height: 100%; width: 100%; margin: 30px;
+        padding: 10px; border-style: outset; border-radius: 20px; border-color: #aab5af; box-shadow: 2px 2px 4px 4px darkgray;" id="main-div">
+            {% block content %}
+                
+            {% endblock %}
+        </div>
+
+        <footer class="footer" id="footer-vue">
+            <div class="content has-text-centered">
+                <img :src="image"> <p><strong>Events Project</strong> [ msg ]</p> 
+            </div>
+        </footer>
+        <script>
+    
+            var vue = new Vue ({
+                el: '#footer-vue',
+                delimiters: ['[', ']'],
+                data: {
+                    msg: ' coded by Amr Aly',
+                    image: "{% static 'img/2.png' %}",
+                    link: "https://google.com",
+                },
+            });
+
+        </script>
+
+        {% block scripts %}
+        {% endblock  %}
+    </body>
+</html>
