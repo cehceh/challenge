@@ -32,9 +32,11 @@
             <div class="navbar-menu" id="navbarCollapse">
                 {% if request.user.is_authenticated %}
                     <div class="navbar-start">
+                        <a href="/dashboard" class="navbar-item">Dashboard</a>
+                        <a href="/list/all/events" class="navbar-item">List All Available Events</a>
                         <a href="{% url 'events:create_event' %}" class="navbar-item">Create Events</a>
-                        <a href="{% url 'events:add_participant' %}" class="navbar-item">Create Participants</a>
-                        <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Events</a>
+                        <!-- <a href="{% url 'events:add_participant' %}" class="navbar-item">Join An Events</a> -->
+                        <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Created Events</a>
                     </div>
                 {% endif %}
                 <div class="navbar-end">
@@ -67,13 +69,13 @@
                 {% endfor %}
             {% endif %}
         </section>
-        
-        <div class="align-content-center printFrame" style="background-color:transparent; height: 100%; width: 100%; margin: 30px;
-        padding: 10px; border-style: outset; border-radius: 20px; border-color: #aab5af; box-shadow: 2px 2px 4px 4px darkgray;" id="main-div">
-            {% block content %}
-                
-            {% endblock %}
-        </div>
+
+        {% block content %}
+            
+        {% endblock %}
+
+        {% include "home/pagination.html" with page=event_page %}
+
 
         <footer class="footer" id="footer-vue">
             <div class="content has-text-centered">

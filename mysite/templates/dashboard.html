@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    
+<div class="container" style="position: relative; display: inline-block; height:100%; width:100%">
+    <h1 class="title">Dashboard</h1>
+    <div class="row">  
+
+            <div class="column is-6">
+                <div class="card card-link">
+                    
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4"><a href="{% url 'events:table_event' user.id %}">All Created Events</a></p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            
+                        </div> 
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="{% url 'events:create_event' %}" class="card-footer-item">Add New Event</a>
+                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item">Edit Event</a>
+                    </footer>
+                    
+                </div>
+            </div> <br>
+
+            <div class="column is-6">
+                <div class="card card-link">
+                    
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4"><a href="{% url 'events:withdraw_table' user.id %}">All Withdraw Events</a></p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                        </div> 
+                    </div>
+
+                    <footer class="card-footer">
+                        <!-- <div class="content"> -->
+                        <a href="{% url 'events:create_event' %}" class="card-footer-item">Add New Event</a>
+                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item">Edit Event</a>   
+                        <!-- </div> -->
+                    </footer>
+                    
+                </div>
+            </div> <br>
+
+            <div class="column is-6">
+                <div class="card card-link">
+                    
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4"><a href="{% url 'events:table_deleted' user.id %}">All Deleted Events</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            
+                        </div> 
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="{% url 'events:create_event' %}" class="card-footer-item">Add New Event</a>
+                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item">Edit Event</a>
+                        <a href="{% url 'events:table_deleted' user.id %}" class="card-footer-item">Reutrn A Deleted Event</a>
+                    </footer>
+                    
+                </div>
+            </div> <br>
+
+            <div class="column is-6">
+                <div class="card card-link">
+                    
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4"><a href="{% url 'events:user_participant_table' user.id %}">
+                                    All Your Participates in Other Users Events</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            
+                        </div> 
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join users Events</a>
+                        <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
+                            Edit Participate In Users Events
+                        </a>
+                    </footer>
+                    
+                </div>
+            </div> <br>
+
+            <div class="column is-6">
+                <div class="card card-link">
+                    
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4"><a href="{% url 'events:table_participant' %}">All Participate Events</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            
+                        </div> 
+                    </div>
+
+                    <footer class="card-footer">
+                        <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join users Events</a>
+                        <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
+                            Edit Participate In Users Events
+                        </a>
+                    </footer>
+                    
+                </div>
+            </div> <br>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# activate the virtualenv 
+source ~/Django_envs/eventenv/bin/activate
+
+# Restart Database service
+/etc/init.d/postgresql restart
+
+echo '..Activating the virtualenv..'
+echo '...'
+echo '.....'
+echo '.......'
+echo '.........'
+echo '...........'
+echo '.............'
+echo '...............'
+echo '.................'
+echo '..Then execute main files'
+
+# Check if database is prepared
+python ~/challenge/mysite/manage.py makemigrations --settings=mysite.settings
+python ~/challenge/myproject/manage.py migrate --settings=mysite.settings
+
+# Collect static files
+python ~/challenge/mysite/manage.py collectstatic --settings=mysite.settings
+# execute the manage.py file
+python ~/challenge/mysite/manage.py runserver 0.0.0.0:8005 --settings=mysite.settings

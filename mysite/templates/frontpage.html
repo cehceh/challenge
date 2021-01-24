@@ -10,7 +10,9 @@
             <h1 class="title">Wellcome To Our Events Application</h1>
             
             {% if request.user.is_authenticated %}
-                <h2 class="subtitle">We are happy to be with us {{user.username}}</h2>
+                <h2 class="subtitle">We are happy to be with us {{user.username}} 
+                    <a href="dashboard"> Goto Your Dashboard</a>
+                </h2>
             {% else %}
                 <h2 class="subtitle">We will be happy if you join us, Try to 
                     <a href="/accounts/signup/"><strong>Sign up</strong></a> now 
@@ -21,5 +23,5 @@
 
 </section>
 
-{% endblock  %}
+{% endblock %}
     

@@ -1,11 +1,9 @@
 {% extends 'base.html' %} {% load static %} 
 
-{% load render_table from django_tables2 %}
-
 {% block content %}
   
 <div class="container">
-    <h1 class="title">Create Event</h1>
+    <h1 class="title">Join an Event Or More </h1>
     
     <form method="POST">
         {% csrf_token %}
@@ -18,26 +16,21 @@
         </div>
 
         <div class="field">
-            <label class="label">{{ form.title.label_tag }}</label>
+            <label class="label">{{ form.event.label_tag }}</label>
             <div class="control">
-                {{ form.title }}
+                {{ form.event }}
             </div>
         </div>
 
         <div class="field">
-            <label class="label">{{ form.eventdate.label_tag }}</label>
+            <label class="label">{{ form.attended.label_tag }} 
+            </label>
             <div class="control">
-                {{ form.eventdate }}
-            </div>
-        </div>
-
-        <div class="field">
-            <label class="label">{{ form.description.label_tag }}</label>
-            <div class="control">
-                {{ form.description }}
+                {{ form.attended }}
             </div>
         </div>
         <br>
+
         <div class="field">
             <div class="control">
                 <button type="submit" class="button is-primary">Submit</button>

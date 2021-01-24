@@ -4,11 +4,51 @@
 
 {% block content %}
   
+<div class="container">
+    <h1 class="title">Edit Event No.: {{ event }} <br><br>
+        Participants Users : {{count_users}}
+    </h1>
+    
+    <form method="POST">
+        {% csrf_token %}
 
+        <div class="field">
+            <label class="label">{{ form.user.label_tag }}</label>
+            <div class="control">
+                {{ form.user }} 
+            </div>
+        </div>
 
+        <div class="field">
+            <label class="label">{{ form.title.label_tag }}</label>
+            <div class="control">
+                {{ form.title }}
+            </div>
+        </div>
 
+        <div class="field">
+            <label class="label">{{ form.eventdate.label_tag }}</label>
+            <div class="control">
+                {{ form.eventdate }}
+            </div>
+        </div>
 
+        <div class="field">
+            <label class="label">{{ form.description.label_tag }}</label>
+            <div class="control">
+                {{ form.description }}
+            </div>
+        </div>
+        <br>
+        <div class="field">
+            <div class="control">
+                <button type="submit" class="button is-info">Submit</button>
+            </div>
+        </div>
 
+    </form>
+
+</div>
 
 {% endblock %}
 

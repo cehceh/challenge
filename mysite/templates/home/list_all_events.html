@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% block content %}
+    
+    <div class="container" style="position: relative; display: inline-block; height:100%; width:100%">
+        <h1 class="title">Dashboard</h1>
+        <div class="row">  
+            {% for obj in event_page %}
+              
+                <div class="column is-6">
+                    <div class="card card-link">
+                        
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                <p class="title is-4">Event ID: {{ obj.id }}</p>
+                                <p class="title is-4">Event Owner: {{ obj.user.username }}</p>
+                                <p class="title is-4">Event Title : {{ obj.title }}</p>
+                                <p class="title is-4">Event Date : {{ obj.eventdate }}</p>
+                                <p class="title is-4">Event Participants : 
+                                    {% for c in count %}
+                                        {% if c.event == obj.id %}   
+                                            {{ c.ncount }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </p>
+                            </div> 
+                        </div>
+
+                        <footer class="card-footer">
+                            <a class="button is-dark" href="{% url 'events:create_event' %}" class="card-footer-item">Add New Event</a>
+                            &nbsp;&nbsp;
+                            {% if obj.user.id == request.user.id  %}
+                                <a class="button is-info" href="{% url 'events:edit_event' obj.id %}" class="card-footer-item">Edit Event</a>&nbsp;&nbsp;
+                            {% else %}
+                                <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item">All Your Events</a> -->
+                            {% endif %}
+                            <!-- <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join An Events</a> -->
+                            <a class="button is-danger" href="{% url 'events:withdraw_specific_event' obj.id user.id %}" class="card-footer-item">Withdraw</a> &nbsp;&nbsp;
+                            <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}" class="card-footer-item">Join</a>
+                            
+                                
+                        </footer>
+                        
+                    </div>
+                </div> <br>
+                {% endfor %}
+
+        </div>
+    </div>
+    
+
+{% endblock %}

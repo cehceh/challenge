@@ -15,21 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views
+# from django.contrib.auth import views
 
-from events.views.events import frontpage
+from events.views.home import frontpage, dashboard, list_all_events
 # from accounts.views import signup, register_page, login_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('events/', include('events.urls', namespace='events')),
     path('', frontpage, name='frontpage'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('list/all/events/', list_all_events, name='list_all_events'),
+    # events App.
+    path('events/', include('events.urls', namespace='events')),
     
-    # for authentication
+    # authentication App.
     path('accounts/', include('allauth.urls')),
     # path('signup/', register_page, name='signup'),
     # path('login/', login_page, name='login'),
     
     # path('login/', views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
-    path('logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
+    # path('logout/', views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
