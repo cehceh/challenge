@@ -25,7 +25,7 @@ Files are arranged as follow :
 9- this project built on linux platform so if you try to use requirements.txt on another plateform like windows 
    you must redownload and resetup some liberaries like "psycopg2" on your target plateform
  
-10- you will find a "run" file it enables you to run django project easy it consists of:
+10- you will find a "run" file it enables you to run django project easy it consists of:(interminal type : source run)
    a- make activate the environment  b- restart the postgresql service
    c- make collectstatic             e- makemigrations and migrate the databse 
 
