@@ -44,24 +44,64 @@
                                     Withdraw</a> &nbsp;&nbsp; -->
                             {% else %}
                             {% endif %}
+                            <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
+                            </a>&nbsp;&nbsp; 
+                            <a class="button is-danger" href="{% url 'events:withdraw_specific_event' obj.id user.id %}" >Withdraw</a> &nbsp;&nbsp;
+
                             <!-- <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join An Events</a> -->
-                            {% for item in get_attended %}
-                                    
-                                {% if item.event == obj.id %}
-                                    <a class="button is-danger" href="{% url 'events:withdraw_specific_event' obj.id user.id %}" class="card-footer-item">Withdraw</a> &nbsp;&nbsp;
-                                {% else %}
-                                {% endif %}
+                            <!-- {% if obj.user.id == request.user.id  %}
+                                {% for item in get_attended %}
+                                        
+                                    {% if item.event == obj.id %}
+                                        <a class="button is-danger" href="{% url 'events:withdraw_specific_event' obj.id user.id %}" class="card-footer-item">Withdraw</a> &nbsp;&nbsp;
+                                    {% else %}
+                                    {% endif %}
+                            
+                                {% endfor %}
+                            {% else %}
+                                {% for item in get_attended %}
+                                            
+                                    {% if item.event == obj.id %}
+                                        <a class="button is-danger" href="{% url 'events:withdraw_specific_event' obj.id user.id %}" class="card-footer-item">Withdraw</a> &nbsp;&nbsp;
+                                    {% else %}
+                                    {% endif %}
                     
-                            {% endfor %}
-                            {% for item in get_withdraw %}
-                                    
-                                {% if item.event == obj.id %}
+                                {% endfor %}
+                            {% endif %}
+                            
+                            {% if obj.user.id == request.user.id %}
+                                {% if get_withdraw == False %}
                                     <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
-                                    </a>&nbsp;&nbsp;  
+                                    </a>&nbsp;&nbsp; 
                                 {% else %}
+                                    {% for item in get_withdraw %}
+                                        
+                                        {% if item.event == obj.id %}
+                                            <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
+                                            </a>&nbsp;&nbsp;  
+                                        {% else %}
+                                        {% endif %}
+                            
+                                    {% endfor %}
                                 {% endif %}
-                    
-                            {% endfor %}
+
+                            {% else %}
+                                {% if get_withdraw == False %}
+                                    <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
+                                    </a>&nbsp;&nbsp; 
+                                {% else %}
+                                    {% for item in get_withdraw %}
+                                                
+                                        {% if item.event == obj.id %}
+                                            <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
+                                            </a>&nbsp;&nbsp;  
+                                        {% else %}
+                                            <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
+                                            </a>&nbsp;&nbsp; 
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endif %} -->
 
                             <!-- <a class="button is-primary" href="{% url 'events:join_specific_event' obj.id user.id %}">Join 
                             </a>                                              -->

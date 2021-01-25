@@ -13,9 +13,9 @@
         {% csrf_token %}
 
         <div class="field">
-            <label class="label">{{ form.user.label_tag }}</label>
+            <label class="label">{{ form.user.label_tag.hidden }}</label>
             <div class="control">
-                {{ form.user }} 
+                {{ form.user.hidden }} 
             </div>
         </div>
 

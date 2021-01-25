@@ -10,13 +10,7 @@ User = get_user_model()
 
 
 class EventForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset=User.objects.all(), required=True, label='User Name',
-                            widget=forms.Select(
-                                attrs={
-                                    'class': 'form-control',
-                                })
-    )
-
+   
     title = forms.CharField(required=True, label='Event Title',
                             widget=forms.TextInput(
                                 attrs={
@@ -44,17 +38,16 @@ class EventForm(forms.ModelForm):
                                 })
     )
     
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     title = cleaned_data.get('title')
-    #     eventdate = cleaned_data.get('eventdate')
-    #     description = cleaned_data.get('description')
-
-    #     return cleaned_data
 
     class Meta:
         model = Event
-        fields = ('__all__') #('title', 'eventdate', 'description', 'withdraw')
+        fields =  ('user', 'title', 'eventdate', 'description',) 
+
+    def __init__(self, *args, **kwargs):
+        # self.user = user
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.fields['user'].widget.attrs['class'] = 'form-control'
+        self.fields['user'].queryset = User.objects.all()
 
 
 class ParticipantForm(forms.ModelForm):
@@ -68,23 +61,6 @@ class ParticipantForm(forms.ModelForm):
                                     attrs={
                                         'class': 'form-control',
                                     }))
-
-    # def clean(self):
-    #     self.cleaned_data = super().clean()
-    #     self.event = self.cleaned_data.get('event_id')
-    #     # user = self.cleaned_data.get('user')
-    #     # attended = cleaned_data.get('attended')
-    #     # inner = Event.objects.values('id').filter(id=event).first()
-    #     # inner = Event.objects.all()[0]#filter(id=self.event)
-    #     # match_user = Participant.objects.filter(user_id=user).exists()
-        
-    #     # if user == auth_user:
-    #     #     self.add_error('user', 'Not allowed')
-    #     #     raise ValidationError('This is not you, choose your user name')
-    #     # else:
-    #     #     print(auth_user, user)
-
-    #     return self.cleaned_data
 
     class Meta:
         model = Participant

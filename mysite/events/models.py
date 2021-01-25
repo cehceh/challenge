@@ -23,6 +23,7 @@ class ParticipantQuerySet(models.query.QuerySet):
     
     def withdraw(self):
         return self.filter(attended=False)
+
     
     def participants_per_event(self, event):
         count_participant = self.filter(event__id=event, attended=True).aggregate(Count('user')) # to calculate the number of participant of every event
@@ -44,7 +45,7 @@ class Event(models.Model):
     eventdate   = models.DateField()
     description = models.TextField(blank=True, null=True)
     is_deleted  = models.BooleanField(default=False)
-    user        = models.ForeignKey('accounts.CustomUser', on_delete=models.CASCADE) # because we are using MODEL_USER_MODEL in settings.py
+    user        = models.ForeignKey('accounts.CustomUser',  blank=True, null=True, on_delete=models.CASCADE) # because we are using MODEL_USER_MODEL in settings.py
     #participant_count = ParticipantQuerySet.get_count_users #[lambda: Participant.participants_per_event]
     
     objects = EventManager()

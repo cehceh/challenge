@@ -25,19 +25,21 @@ def list_active_events(request):
     ## I already do that in auto_join.py to display a message tell the user if he joined the event or not                                                ##
     ################################################################################################################################################
     user_id = request.user.id
-    event_time = date.today()
+    # event_time = date.today()
+    # event_time = datetime.now().date()
+    event_time = datetime.now()
     event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate')
 
     count = Participant.objects.values('event') \
                                 .annotate(ncount=Count('user'))\
                                 .filter(attended=True)  # to get participants count 
 
-    # get attended events of a user
-    get_attended = Participant.objects.values('attended', 'event').filter(user=user_id).attended()
-
-    # get withdraw events of a user
-    get_withdraw = Participant.objects.values('attended', 'event').filter(user=user_id).withdraw()
+    # # get attended events of a user
+    # get_attended = Participant.objects.values('attended', 'event').filter(attended=True, user=user_id)
+    # # get withdraw events of a user
+    # get_withdraw = Participant.objects.values('attended', 'event').filter(attended=False, user=user_id)
     
+    print(event_time)
     paginator = Paginator(event, 4) 
     page = request.GET.get('page')
     try:
@@ -50,8 +52,8 @@ def list_active_events(request):
         event_page = paginator.page(paginator.num_pages)
     
     context = {
-        'get_withdraw': get_withdraw,
-        'get_attended': get_attended,
+        # 'get_withdraw': get_withdraw,
+        # 'get_attended': get_attended,
         'event_page': event_page,
         'page': page,
         'count': count,

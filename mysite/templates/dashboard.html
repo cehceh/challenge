@@ -3,122 +3,160 @@
 
 {% block content %}
     
-<div class="container" style="position: relative; display: inline-block; height:100%; width:100%">
+<div class="container" style="position: relative; display: inline-block; height:100%; width:100%" id="dashboard">
     <h1 class="title">Dashboard</h1>
     <div class="row">  
 
-            <div class="column is-6">
-                <div class="card card-link">
-                    
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">
-                                    <a href="{% url 'events:withdraw_table' user.id %}">
-                                    All Withdraw Events</a>
-                                </p>
-                            </div>
+        <div class="column is-6">
+            <div class="card card-link">
+                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <img :src="image">
+                            <p class="title is-4"><a href="{% url 'events:user_participant_table' user.id %}">
+                                Your Attended Events</a>
+                            </p>
                         </div>
-
-                        <div class="content">
-                        </div> 
                     </div>
 
-                    <footer class="card-footer">
-                        <!-- <div class="content"> -->
-                        <a class="button is-dark" href="{% url 'events:create_event' %}" class="card-footer-item">
-                            Add New Event
-                        </a> &nbsp;&nbsp;
-                        <a class="button is-info" href="{% url 'events:table_event' user.id %}" class="card-footer-item">Edit Event</a>   
-                        <!-- </div> -->
-                    </footer>
-                    
+                    <div class="content">
+                        
+                    </div> 
                 </div>
-            </div> <br>
 
-            <div class="column is-6">
-                <div class="card card-link">
-                    
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4"><a href="{% url 'events:table_deleted' user.id %}">All Deleted Events</a>
-                                </p>
-                            </div>
+                <footer class="card-footer">
+                    <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
+                        Add New Event</a>&nbsp;&nbsp;
+                    <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
+                        Edit Events</a>&nbsp;&nbsp; -->
+                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-primary">
+                            Your created Events</a>
+                </footer>
+                
+            </div>
+        </div> <br>
+
+        <div class="column is-6">
+            <div class="card card-link">
+                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <img :src="image">
+                            <p class="title is-4"><a href="{% url 'events:table_participant' %}">
+                                All Attended Events Of All Users</a>
+                            </p>
                         </div>
-
-                        <div class="content">
-                            
-                        </div> 
                     </div>
 
-                    <footer class="card-footer">
-                        <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
-                            Add New Event</a>&nbsp;&nbsp;
-                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
-                            Edit Event</a>&nbsp;&nbsp;
-                        <a href="{% url 'events:table_deleted' user.id %}" class="card-footer-item button is-primary">
-                            Reutrn A Deleted Event</a>
-                    </footer>
-                    
+                    <div class="content">
+                        
+                    </div> 
                 </div>
-            </div> <br>
 
-            <div class="column is-6">
-                <div class="card card-link">
-                    
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4"><a href="{% url 'events:user_participant_table' user.id %}">
-                                    Your Attended Events</a>
-                                </p>
-                            </div>
+                <footer class="card-footer">
+                    <a class="button is-dark" href="{% url 'events:create_event' %}">
+                        Add New Event</a>&nbsp;&nbsp;
+                    <!-- <a href="{% url 'events:table_event' user.id %}" class="button is-info">
+                        Edit Events</a>&nbsp;&nbsp; -->
+                    <a href="{% url 'list_active_events' %}" class="button is-primary">
+                        Join Active Events</a>
+                    <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
+                        Edit Participate In Users Events
+                    </a>
+                </footer>
+                
+            </div>
+        </div> <br>
+
+        <div class="column is-6">
+            <div class="card card-link">
+                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <img :src="image">
+                            <p class="title is-4">
+                                <a href="{% url 'events:withdraw_table' user.id %}">
+                                All Withdraw Events</a>
+                            </p>
                         </div>
-
-                        <div class="content">
-                            
-                        </div> 
                     </div>
 
-                    <footer class="card-footer">
-                        <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join users Events</a>
-                        <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
-                            Edit Participate In Users Events
-                        </a>
-                    </footer>
-                    
+                    <div class="content">
+                    </div> 
                 </div>
-            </div> <br>
 
-            <div class="column is-6">
-                <div class="card card-link">
-                    
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4"><a href="{% url 'events:table_participant' %}">
-                                    All Events Of All Users</a>
-                                </p>
-                            </div>
+                <footer class="card-footer">
+                    <a class="button is-dark" href="{% url 'events:create_event' %}">
+                        Add New Event
+                    </a> &nbsp;&nbsp;
+                    <a class="button is-info" href="{% url 'events:table_event' user.id %}">
+                        Edit Event
+                    </a>&nbsp;&nbsp;   
+                    <a href="{% url 'list_expire_events' %}" class="button is-danger">
+                        Display Expire Events
+                    </a>
+                </footer>
+                
+            </div>
+        </div> <br>
+
+        <div class="column is-6">
+            <div class="card card-link">
+                
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <img :src="image">
+                            <p class="title is-4"><a href="{% url 'events:table_deleted' user.id %}">All Deleted Events</a>
+                            </p>
                         </div>
-
-                        <div class="content">
-                            
-                        </div> 
                     </div>
 
-                    <footer class="card-footer">
-                        <a href="{% url 'events:add_participant' %}" class="card-footer-item">Join users Events</a>
-                        <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
-                            Edit Participate In Users Events
-                        </a>
-                    </footer>
-                    
+                    <div class="content">
+                        
+                    </div> 
                 </div>
-            </div> <br>
+
+                <footer class="card-footer">
+                    <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
+                        Add New Event</a>&nbsp;&nbsp;
+                    <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
+                        Edit Events</a>&nbsp;&nbsp;
+                    <a href="{% url 'events:table_deleted' user.id %}" class="card-footer-item button is-primary">
+                        Reutrn A Deleted Event</a>
+                </footer>
+                
+            </div>
+        </div> <br>
+
+            
 
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+     <!-- scripts for VUE -->
+     <script src="{% static 'vue/vue.js' %}"></script>
+     <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+     <script src="https://cdnjs.cloudfare.com/ajax/libs/axios/0.19.2/axios.min.js">
+     </script>
+
+        <script>
+            
+            var vue = new Vue ({
+                el: '#dashboard',
+                delimiters: ['[', ']'],
+                data: {
+                    image: "{% static 'img/2.png' %}",
+                },
+            });
+
+        </script>
+
 
 {% endblock %}
