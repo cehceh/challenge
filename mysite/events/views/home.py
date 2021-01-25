@@ -1,8 +1,11 @@
-from events.tables.tables import ParticipantTable
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from ..models import Event, Participant
 from django.db.models import Count
-from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from datetime import datetime, date
+# from time import timezone
+
 
 def frontpage(request):
     ''' This method to handel frontpage '''
@@ -12,14 +15,30 @@ def dashboard(request):
     ''' Handling dashboard page '''
     return render(request, 'dashboard.html', {})
 
-def list_all_events(request):
-    '''  '''
-    event = Event.objects.filter().active().order_by('-eventdate')
+def list_active_events(request):
+    ''' Handling display of all events of any user that have created '''
+    ################################################  Important Hint   #############################################################################
+    ## in templates we have made 'for' statement to loop all event_id to get all attended events in order to show withdraw button in active events page ##
+    ## in templates we have made for statement to loop all event_id to get all withdraw events in order to show join button  in active events page      ##
+    ## but i think the right way is displaying a message to the user tell him that is already join the event or not                                     ##
+    ##                                                                                                                                                  ##
+    ## I already do that in auto_join.py to display a message tell the user if he joined the event or not                                                ##
+    ################################################################################################################################################
+    user_id = request.user.id
+    event_time = date.today()
+    event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate')
 
     count = Participant.objects.values('event') \
                                 .annotate(ncount=Count('user'))\
-                                .filter(attended=True) 
-    paginator = Paginator(event, 3) # 3 events in each page
+                                .filter(attended=True)  # to get participants count 
+
+    # get attended events of a user
+    get_attended = Participant.objects.values('attended', 'event').filter(user=user_id).attended()
+
+    # get withdraw events of a user
+    get_withdraw = Participant.objects.values('attended', 'event').filter(user=user_id).withdraw()
+    
+    paginator = Paginator(event, 4) 
     page = request.GET.get('page')
     try:
         event_page = paginator.page(page)
@@ -30,14 +49,41 @@ def list_all_events(request):
         # If page is out of range deliver last page of results
         event_page = paginator.page(paginator.num_pages)
     
-    # for item in count:
-    #     event_id = item['event']
-    #     match_withraw = Participant.objects.filter(event_id=event_id, user=user_id, attended=False).exists()
-    # print(count, event_id)
     context = {
+        'get_withdraw': get_withdraw,
+        'get_attended': get_attended,
         'event_page': event_page,
         'page': page,
-        'event': event,
         'count': count,
     }
-    return render(request, 'home/list_all_events.html', context)
+    return render(request, 'home/list_active_events.html', context)
+
+
+def list_expire_events(request):
+    '''  '''
+    today = date.today()
+    # event_time = timezone.now().date()
+    expire_events = Event.objects.filter(eventdate__lt=today).order_by('-eventdate')
+    
+    paginator = Paginator(expire_events, 4) 
+    page = request.GET.get('page')
+
+    try:
+        event_page = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        event_page = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        event_page = paginator.page(paginator.num_pages)
+
+    count = Participant.objects.values('event') \
+                                .annotate(ncount=Count('user'))\
+                                .filter(attended=True)  # to get participants count 
+    # print(expire_events)
+    context= {
+        'event_page': event_page,
+        'page': page,
+        'count': count,
+    }
+    return render(request, 'home/list_expire_events.html', context)

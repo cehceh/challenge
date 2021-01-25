@@ -17,14 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 # from django.contrib.auth import views
 
-from events.views.home import frontpage, dashboard, list_all_events
+from events.views.home import frontpage, dashboard, list_active_events, list_expire_events
 # from accounts.views import signup, register_page, login_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # for home.py
     path('', frontpage, name='frontpage'),
     path('dashboard/', dashboard, name='dashboard'),
-    path('list/all/events/', list_all_events, name='list_all_events'),
+    path('list/all/active/events/', list_active_events, name='list_active_events'),
+    path('list/all/expire/events/', list_expire_events, name='list_expire_events'),
+    
     # events App.
     path('events/', include('events.urls', namespace='events')),
     

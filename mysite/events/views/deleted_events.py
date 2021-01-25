@@ -1,12 +1,13 @@
+from time import timezone
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import redirect, render
-# from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from ..models import Event, Participant
-# from ..forms import EventForm
 from events.tables.tables import EventTable
+
+from datetime import date, datetime
 
 
 
@@ -39,4 +40,3 @@ def table_deleted(request, user):
         'all_deleted_events_table': table,
     }
     return render(request, 'events/tables/all_deleted_events.html', context)
-

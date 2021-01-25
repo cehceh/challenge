@@ -1,12 +1,9 @@
-# from django.core.checks import messages
 from django.contrib import messages
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
-# from django.db.models.aggregates import Count
-from django.db.models import Sum, Max, Count
-
+# from django.db.models import Sum, Max, Count
+from datetime import date
 from ..models import Event, Participant
 from ..forms import EventForm
 from events.tables.tables import EventTable, ParticipantTable
@@ -47,36 +44,17 @@ def create_event(request):
 
 def edit_event(request, id):
     ''' Method to handel update to spcefic event '''
-    # inner = Event.objects.filter(user=user, is_deleted=False)
-    # user = request.user.id
-    # event = Event.objects.filter().active()
-    # event = Event.objects.get(id=id)
-    # event = Event.objects.all()#filter().active()#get(id=id)
-
-    # event = Event.objects.values('id').filter().first()
-    # event_id= event['id']
-    # # # count_participant = Participant.objects.filter(event__id__in=event).aggregate(Count('user'))
-    # count_participant = Participant.objects.values('event').filter(event__id=event_id).aggregate(Count('user')) # this is what we want 
-    # part_event = Participant.objects.filter(event__id__in=event, user=user)
-    count_users =  Participant.objects.filter().participants_per_event(id)
-    # table = ParticipantTable(count_users)
-    # table.paginate(page=request.GET.get('page', 1), per_page=5)
-    # event = Event.objects.values('id').filter(id=id).first()
-    # event_id= event['id']
-    # # # count_participant = Participant.objects.filter(event__id__in=event).aggregate(Count('user'))
-    # count_participant = Participant.objects.values('event').filter(event__id=event_id).aggregate(Count('user')) # this is what we want 
-    # # part_event = Participant.objects.filter(event__id__in=event, user=user)
-    # count_user = Participant.objects.filter(user=user).aggregate(Count('user')) # it is not what we want
-    # print(count_participant, event, count_user)
+    user_id = request.user.id
+    count_users =  Participant.objects.filter().participants_per_event(id) # Get the amount of participants look at models
 
     qs = Event.objects.get(id=id)
-    event = Event.objects.values('id').filter(id=id).first()
-    event_id = event['id']
+    # event = Event.objects.values('id').filter(id=id).first()
+    # event_id = event['id']
+
     form = EventForm(request.POST or None, instance=qs)
     if form.is_valid():
         form.save()
-        # return redirect(qs.get_absolute_url())
-        return redirect(reverse('events:edit_event', kwargs={'id': event_id}))
+        return redirect(reverse('events:table_event', kwargs={'user': user_id}))
 
     context = {
         'form': form, 
@@ -87,9 +65,9 @@ def edit_event(request, id):
 
 
 def table_event(request, user):
-    ''' Method to display all events of spcefic event '''
-    qs = Event.objects.filter(user_id=user, is_deleted=False).order_by('-eventdate')
-    table = EventTable(qs, exclude='re_del')
+    ''' Method to display all events of spcefic user '''
+    qs = Event.objects.filter(eventdate__gte=date.today(), user_id=user, is_deleted=False).order_by('-eventdate')
+    table = EventTable(qs, exclude='re_del, withdraw')
     table.paginate(page=request.GET.get('page', 1), per_page=10)
     context = {
         'user_table': table,

@@ -59,7 +59,13 @@ class ParticipantTable(tables.Table):
     user = tables.TemplateColumn('{{record.user.username}}', 
         verbose_name=u'User Name',)
 
-    # participants = tables.Column(render_participants ,verbose_name='Participants')
+    join = tables.TemplateColumn(
+        '<a class="btn btn-outline-success" href="{% url \'events:join_specific_event\' record.event_id record.user_id %}">Join</a>',
+        verbose_name=u'Join Event',)
+
+    withdraw = tables.TemplateColumn(
+        '<a class="btn btn-outline-danger" href="{% url \'events:withdraw_specific_event\' record.event_id record.user_id %}">Withdraw</a>',
+        verbose_name=u'Withdraw',)
 
     edit = tables.TemplateColumn(
         '<a class="btn btn-outline-success" href="{% url \'events:edit_participant\' record.id %}">Edit Participant</a>',
@@ -73,5 +79,5 @@ class ParticipantTable(tables.Table):
     class Meta:
         model = Participant
         template_name = 'django_tables2/bootstrap4.html'
-        fields = ('user', 'event', 'attended', 'edit')
+        fields = ('user', 'event', 'attended', 'join', 'edit')
         

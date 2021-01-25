@@ -33,7 +33,8 @@
                 {% if request.user.is_authenticated %}
                     <div class="navbar-start">
                         <a href="/dashboard" class="navbar-item">Dashboard</a>
-                        <a href="/list/all/events" class="navbar-item">List All Available Events</a>
+                        <a href="{% url 'list_active_events' %}" class="navbar-item">Active Events</a>
+                        <a href="{% url 'list_expire_events' %}" class="navbar-item">Expire Events</a>
                         <a href="{% url 'events:create_event' %}" class="navbar-item">Create Events</a>
                         <!-- <a href="{% url 'events:add_participant' %}" class="navbar-item">Join An Events</a> -->
                         <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Created Events</a>
@@ -90,7 +91,6 @@
                 data: {
                     msg: ' coded by Amr Aly',
                     image: "{% static 'img/2.png' %}",
-                    link: "https://google.com",
                 },
             });
 
