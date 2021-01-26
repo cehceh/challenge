@@ -7,6 +7,7 @@
     <h1 class="title">Dashboard</h1>
     <div class="row">  
 
+        <!-- first card -->
         <div class="column is-6">
             <div class="card card-link">
                 
@@ -15,7 +16,7 @@
                         <div class="media-content">
                             <img :src="image">
                             <p class="title is-4"><a href="{% url 'events:user_participant_table' user.id %}">
-                                Your Attended Events</a>
+                                Display Your Attended Events</a>
                             </p>
                         </div>
                     </div>
@@ -31,12 +32,13 @@
                     <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
                         Edit Events</a>&nbsp;&nbsp; -->
                         <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-primary">
-                            Your created Events</a>
+                            Display Your created Events</a>
                 </footer>
                 
             </div>
         </div> <br>
 
+        <!-- second card -->
         <div class="column is-6">
             <div class="card card-link">
                 
@@ -45,7 +47,7 @@
                         <div class="media-content">
                             <img :src="image">
                             <p class="title is-4"><a href="{% url 'events:table_participant' %}">
-                                All Attended Events Of All Users</a>
+                                Display Attended Events Of All Users</a>
                             </p>
                         </div>
                     </div>
@@ -56,20 +58,21 @@
                 </div>
 
                 <footer class="card-footer">
-                    <a class="button is-dark" href="{% url 'events:create_event' %}">
+                    <a class="card-footer-item button is-dark" href="{% url 'events:create_event' %}">
                         Add New Event</a>&nbsp;&nbsp;
                     <!-- <a href="{% url 'events:table_event' user.id %}" class="button is-info">
                         Edit Events</a>&nbsp;&nbsp; -->
-                    <a href="{% url 'list_active_events' %}" class="button is-primary">
+                    <a href="{% url 'list_active_events' %}" class="card-footer-item button is-primary">
                         Join Active Events</a>
-                    <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
+                    <!-- <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
                         Edit Participate In Users Events
-                    </a>
+                    </a> -->
                 </footer>
                 
             </div>
         </div> <br>
 
+        <!-- third card  -->
         <div class="column is-6">
             <div class="card card-link">
                 
@@ -79,7 +82,7 @@
                             <img :src="image">
                             <p class="title is-4">
                                 <a href="{% url 'events:withdraw_table' user.id %}">
-                                All Withdraw Events</a>
+                                Display Your Withdraw Events</a>
                             </p>
                         </div>
                     </div>
@@ -89,13 +92,13 @@
                 </div>
 
                 <footer class="card-footer">
-                    <a class="button is-dark" href="{% url 'events:create_event' %}">
+                    <!-- <a class="button is-dark" href="{% url 'events:create_event' %}">
                         Add New Event
-                    </a> &nbsp;&nbsp;
-                    <a class="button is-info" href="{% url 'events:table_event' user.id %}">
-                        Edit Event
+                    </a> &nbsp;&nbsp; -->
+                    <a class="card-footer-item button is-info" href="{% url 'events:table_event' user.id %}">
+                        Edit Your Events
                     </a>&nbsp;&nbsp;   
-                    <a href="{% url 'list_expire_events' %}" class="button is-danger">
+                    <a href="{% url 'list_expire_events' %}" class="card-footer-item button is-danger">
                         Display Expire Events
                     </a>
                 </footer>
@@ -110,7 +113,8 @@
                     <div class="media">
                         <div class="media-content">
                             <img :src="image">
-                            <p class="title is-4"><a href="{% url 'events:table_deleted' user.id %}">All Deleted Events</a>
+                            <p class="title is-4"><a href="{% url 'events:table_deleted' user.id %}">
+                                Display Your Deleted Events</a>
                             </p>
                         </div>
                     </div>
@@ -123,10 +127,10 @@
                 <footer class="card-footer">
                     <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
                         Add New Event</a>&nbsp;&nbsp;
-                    <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
-                        Edit Events</a>&nbsp;&nbsp;
+                    <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
+                        Edit Events</a>&nbsp;&nbsp; -->
                     <a href="{% url 'events:table_deleted' user.id %}" class="card-footer-item button is-primary">
-                        Reutrn A Deleted Event</a>
+                        Reutrn Your Deleted Event</a>
                 </footer>
                 
             </div>

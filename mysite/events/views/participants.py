@@ -12,7 +12,11 @@ from django.contrib.auth.decorators import login_required
 
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
-
+################################ Important Note #######################################
+## We don't need add_participant() function or edit_participant() function any more  ##
+## Because we use automatic join when we create events take a look at create_event() ##
+## And also join.py enable us to manage join and withdraw process automatically      ## 
+#######################################################################################
 
 @login_required
 def add_participant(request):
@@ -66,7 +70,7 @@ def edit_participant(request, id):
 def user_participant_table(request, user):
     ''' Handling all participate events for a user '''
     qs = Participant.objects.filter(user=user).attended().order_by('-id')
-    table = ParticipantTable(qs)
+    table = ParticipantTable(qs, exclude='join, edit')
     table.paginate(page=request.GET.get('page',1), per_page=10)
 
     context={
@@ -94,7 +98,7 @@ def withdraw_table(request, user):
     inner = Event.objects.filter(user=user, eventdate__lt=date.today())
     qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter().withdraw().order_by('-events_event.eventdate')
     
-    table = ParticipantTable(qs, exclude='user, withdraw')
+    table = ParticipantTable(qs, exclude='user, edit, withdraw')
     table.paginate(page=request.GET.get('page', 1), per_page=10)
     context = {
         'user_withdraw_table': table,

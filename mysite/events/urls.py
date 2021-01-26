@@ -20,13 +20,13 @@ urlpatterns = [
     path('all/events/for/user/<int:user>/', table_event, name='table_event'),
     
 
-    # for participants add, edit and delete 
+    # for participants add, edit
     path('add/participant/', add_participant, name='add_participant'),
     path('edit/participant/<int:id>/', edit_participant, name='edit_participant'),
     
     # table participants  
-    path('all/participate/events/for/all/users/', table_participant, name='table_participant'),
-    path('all/participate/events/for/user/<int:user>/', user_participant_table, name="user_participant_table"),
+    path('all/attended/events/for/all/users/', table_participant, name='table_participant'),
+    path('all/attended/events/for/user/<int:user>/', user_participant_table, name="user_participant_table"),
     path('all/withdraw/events/for/user/<int:user>/', withdraw_table, name='withdraw_table'),
 
     # join.py

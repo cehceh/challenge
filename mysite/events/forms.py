@@ -43,11 +43,12 @@ class EventForm(forms.ModelForm):
         model = Event
         fields =  ('user', 'title', 'eventdate', 'description',) 
 
+    # init function is importanat in saving user automatically in create_event() function
     def __init__(self, *args, **kwargs):
         # self.user = user
         super(EventForm, self).__init__(*args, **kwargs)
-        self.fields['user'].widget.attrs['class'] = 'form-control'
-        self.fields['user'].queryset = User.objects.all()
+        # self.fields['user'].widget.attrs['class'] = 'form-control'
+        # self.fields['user'].queryset = User.objects.all()
 
 
 class ParticipantForm(forms.ModelForm):
