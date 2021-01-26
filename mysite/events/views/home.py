@@ -5,16 +5,20 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from datetime import datetime, date
 # from time import timezone
+from django.contrib.auth.decorators import login_required
 
 
 def frontpage(request):
     ''' This method to handel frontpage '''
     return render(request, 'frontpage.html', {})
 
+
+@login_required
 def dashboard(request): 
     ''' Handling dashboard page '''
     return render(request, 'dashboard.html', {})
 
+@login_required
 def list_active_events(request):
     ''' Handling display of all events of any user that have created '''
     ################################################  Important Hint   #############################################################################
@@ -25,21 +29,14 @@ def list_active_events(request):
     ## I already do that in auto_join.py to display a message tell the user if he joined the event or not                                                ##
     ################################################################################################################################################
     user_id = request.user.id
-    # event_time = date.today()
-    # event_time = datetime.now().date()
-    event_time = datetime.now()
-    event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate')
+    event_time = date.today()#datetime.now()  # or you can use ==>>  date.today()
+    # .active() means not deleted take a look at models.py
+    event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate') 
 
     count = Participant.objects.values('event') \
                                 .annotate(ncount=Count('user'))\
                                 .filter(attended=True)  # to get participants count 
-
-    # # get attended events of a user
-    # get_attended = Participant.objects.values('attended', 'event').filter(attended=True, user=user_id)
-    # # get withdraw events of a user
-    # get_withdraw = Participant.objects.values('attended', 'event').filter(attended=False, user=user_id)
-    
-    print(event_time)
+    print(event)
     paginator = Paginator(event, 4) 
     page = request.GET.get('page')
     try:
@@ -60,7 +57,7 @@ def list_active_events(request):
     }
     return render(request, 'home/list_active_events.html', context)
 
-
+@login_required
 def list_expire_events(request):
     '''  '''
     today = date.today()

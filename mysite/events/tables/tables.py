@@ -57,7 +57,7 @@ class ParticipantTable(tables.Table):
 
 
     user = tables.TemplateColumn('{{record.user.username}}', 
-        verbose_name=u'User Name',)
+        verbose_name=u'Joined User Name',)
 
     join = tables.TemplateColumn(
         '<a class="btn btn-outline-success" href="{% url \'events:join_specific_event\' record.event_id record.user_id %}">Join</a>',
