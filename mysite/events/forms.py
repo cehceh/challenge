@@ -65,7 +65,6 @@ class ParticipantForm(forms.ModelForm):
 
     class Meta:
         model = Participant
-        # exclude = ["user",]
         fields = ('event', 'attended')
         
 

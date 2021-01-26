@@ -68,8 +68,11 @@ def edit_participant(request, id):
 
 @login_required
 def user_participant_table(request, user):
-    ''' Handling all participate events for a user '''
-    qs = Participant.objects.filter(user=user).attended().order_by('-id')
+    ''' Handling all Attended events for a user '''
+    inner = Event.objects.filter(eventdate__lt=date.today())
+    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
+
+    # qs = Participant.objects.filter(user=user).attended().order_by('-id')
     table = ParticipantTable(qs, exclude='join, edit')
     table.paginate(page=request.GET.get('page',1), per_page=10)
 
@@ -95,8 +98,8 @@ def table_participant(request):
 @login_required
 def withdraw_table(request, user):
     ''' Method to display all withdraw events of spcefic user '''
-    inner = Event.objects.filter(user=user, eventdate__lt=date.today())
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter().withdraw().order_by('-events_event.eventdate')
+    inner = Event.objects.filter(eventdate__lt=date.today())
+    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).withdraw().order_by('-events_event.eventdate')
     
     table = ParticipantTable(qs, exclude='user, edit, withdraw')
     table.paginate(page=request.GET.get('page', 1), per_page=10)

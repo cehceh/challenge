@@ -1,12 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
+# from django.contrib.auth.models import User
+# from django.conf import settings
 from django.urls import reverse
 from django.db.models import Sum, Max, Count
 
+
 # Create your models here.
 class EventQuerySet(models.query.QuerySet):
-    def active(self):
+    def active(self): # called in views like this: modelname.objects.filter().active()
         return self.filter(is_deleted=False)
 
 class EventManager(models.Manager):
@@ -18,14 +19,14 @@ class EventManager(models.Manager):
 
 
 class ParticipantQuerySet(models.query.QuerySet):
-    def attended(self):
+    def attended(self): # called in views like this: modelname.objects.filter().attended()
         return self.filter(attended=True)
     
-    def withdraw(self):
+    def withdraw(self): # called in views like this: modelname.objects.filter().withdraw()
         return self.filter(attended=False)
 
     
-    def participants_per_event(self, event):
+    def participants_per_event(self, event): # called in views like this: modelname.objects.filter().participants_per_event()
         count_participant = self.filter(event__id=event, attended=True).aggregate(Count('user')) # to calculate the number of participant of every event
         users_num  = count_participant['user__count']
         # count_participant = self.filter(event__id__in=event).aggregate(Count('user')) # to calculate the number of participant of every event

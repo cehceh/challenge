@@ -1,3 +1,4 @@
+from events.tables.tables import ParticipantTable
 from django.shortcuts import render
 from ..models import Event, Participant
 from django.db.models import Count
@@ -27,18 +28,13 @@ def list_active_events(request):
     ################################################################################################################################################
     user_id = request.user.id
     event_time = date.today()#datetime.now()  # or you can use ==>>  date.today()
+
     ## .active() means not deleted take a look at models.py
     event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate') 
 
     count = Participant.objects.values('event') \
                                 .annotate(ncount=Count('user'))\
                                 .filter(attended=True)  # to get participants count 
-    
-    # inner = Event.objects.filter(user=user_id)
-    # qs = Participant.objects.filter(user=user_id).attended()
-    # msg = ''
-    # if inner not in qs:
-    #     msg = "Try to join this event"
 
     ## for give a hint to user if he attended the event or not 
     user_attend = Participant.objects.values('event', 'attended').filter(user=user_id)  
@@ -58,8 +54,6 @@ def list_active_events(request):
     
     context = {
         'user_attend': user_attend,
-        # 'get_withdraw': get_withdraw,
-        # 'get_attended': get_attended,
         'event_page': event_page,
         'page': page,
         'count': count,
@@ -96,3 +90,31 @@ def list_expire_events(request):
         'count': count,
     }
     return render(request, 'home/list_expire_events.html', context)
+
+
+@login_required
+def user_active_events(request, user): # 
+    ''' Handleing all active(not expire) events and attended for a specific user '''
+    inner = Event.objects.filter(user=user, eventdate__lt=date.today())
+    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
+    
+    table = ParticipantTable(qs, exculde='edite')
+    table.paginate(page=request.GET.get('page', 1), per_page=10)
+    context = {
+        'user_active_events_table': table,
+    }
+    return render(request, 'home/tables/user_active_events.html', context)
+
+
+@login_required
+def user_expire_events(request, user):
+    ''''''
+    inner = Event.objects.filter(user=user, eventdate__gte=date.today())
+    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).order_by('-events_event.eventdate')
+    
+    table = ParticipantTable(qs, exculde='edite')
+    table.paginate(page=request.GET.get('page', 1), per_page=10)
+    context = {
+        'user_expire_events_table': table,
+    }
+    return render(request, 'events/tables/user_expire_events.html', context)
