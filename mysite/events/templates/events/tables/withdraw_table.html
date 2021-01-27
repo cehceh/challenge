@@ -10,6 +10,10 @@
  padding: 10px; border-style: outset; border-radius: 20px; border-color: #aab5af; box-shadow: 2px 2px 4px 4px darkgray;" id="tables-div" name="mydiv">
         
         <h1 class="text-dark">All Withdraw Events Of User: {{ user.username }}</h1> <br>
+        <form class="form-inline mt-2 mt-md-0" method="GET" action="{% url 'events:withdraw_table' user.id %}">
+            <input class="form-control mr-sm-2" type="text" name='pageno' placeholder="Edit pagination pages here..." value="{{request.GET.pageno}}" aria-label="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit" hidden>Search</button>
+        </form><br>
         {% render_table user_withdraw_table %}
     </div>
 

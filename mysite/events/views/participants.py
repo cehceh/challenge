@@ -77,8 +77,14 @@ def user_participant_table(request, user):
                             .filter(user=user).attended().order_by('-events_event.eventdate')
 
     # qs = Participant.objects.filter(user=user).attended().order_by('-id')
-    table = ParticipantTable(qs, exclude='join, edit')
-    table.paginate(page=request.GET.get('page',1), per_page=10)
+    # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
+    page_no = request.GET.get('pageno')
+    if page_no == None or page_no == '' or int(page_no) == 0:
+        table = ParticipantTable(qs, exclude='join, edit')
+        table.paginate(page=request.GET.get('page',1), per_page=10)
+    else:
+        table = ParticipantTable(qs, exclude='join, edit')
+        table.paginate(page=request.GET.get('page',1), per_page=page_no)
 
     context={
         'user_participant_table': table,
@@ -94,9 +100,16 @@ def table_participant(request):
                             .exclude(event_id__in=inner) \
                             .exclude(event_id__in=exclude_deleted) \
                             .attended().order_by('-events_event.eventdate')
-    # print(qs)
-    table = ParticipantTable(qs, exclude='edit, join, withdraw')
-    table.paginate(page=request.GET.get('page',1), per_page=10)
+    
+    # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
+    page_no = request.GET.get('pageno')
+    if page_no == None or page_no == '' or int(page_no) == 0:
+        table = ParticipantTable(qs, exclude='edit, join, withdraw')
+        table.paginate(page=request.GET.get('page',1), per_page=10)
+    else:
+        table = ParticipantTable(qs, exclude='edit, join, withdraw')
+        table.paginate(page=request.GET.get('page',1), per_page=page_no)
+
     context={
         'all_participant_table': table,
     }
@@ -112,8 +125,15 @@ def withdraw_table(request, user):
                             .exclude(event_id__in=exclude_deleted) \
                             .filter(user=user).withdraw().order_by('-events_event.eventdate')
     
-    table = ParticipantTable(qs, exclude='user, edit, withdraw')
-    table.paginate(page=request.GET.get('page', 1), per_page=10)
+    # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
+    page_no = request.GET.get('pageno')
+    if page_no == None or page_no == '' or int(page_no) == 0:
+        table = ParticipantTable(qs, exclude='user, edit, withdraw')
+        table.paginate(page=request.GET.get('page', 1), per_page=10)
+    else:
+        table = ParticipantTable(qs, exclude='user, edit, withdraw')
+        table.paginate(page=request.GET.get('page', 1), per_page=page_no)
+
     context = {
         'user_withdraw_table': table,
     }

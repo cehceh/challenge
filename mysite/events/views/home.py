@@ -112,8 +112,14 @@ def user_expire_events(request, user):
     inner = Event.objects.filter(eventdate__gte=date.today())
     qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).order_by('-events_event.eventdate')
     
-    table = ParticipantTable(qs, exclude='user, join, withdraw')
-    table.paginate(page=request.GET.get('page', 1), per_page=10)
+    page_no = request.GET.get('pageno')
+    if page_no == None or page_no == '' or int(page_no) == 0:
+        table = ParticipantTable(qs, exclude='user, join, withdraw')
+        table.paginate(page=request.GET.get('page', 1), per_page=10)
+    else:
+        table = ParticipantTable(qs, exclude='user, join, withdraw')
+        table.paginate(page=request.GET.get('page', 1), per_page=page_no)
+        
     context = {
         'user_expire_events_table': table,
     }

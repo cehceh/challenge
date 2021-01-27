@@ -78,8 +78,13 @@ def edit_event(request, id):
 def table_event(request, user):
     ''' Method to display all events of spcefic user '''
     qs = Event.objects.filter(eventdate__gte=date.today(), user_id=user, is_deleted=False).order_by('-eventdate')
-    table = EventTable(qs, exclude='re_del')
-    table.paginate(page=request.GET.get('page', 1), per_page=10)
+    page_no = request.GET.get('pageno')
+    if page_no == None or page_no == '' or int(page_no) == 0:
+        table = EventTable(qs, exclude='re_del')
+        table.paginate(page=request.GET.get('page', 1), per_page=10)
+    else:
+        table = EventTable(qs, exclude='re_del')
+        table.paginate(page=request.GET.get('page', 1), per_page=page_no)
     context = {
         'user_table': table,
     }
