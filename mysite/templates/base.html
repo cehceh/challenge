@@ -5,76 +5,23 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Events Application</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-       
-        <link rel="icon" type="image/png" href="{% static 'favicon/favicon.ico' %}">
-        
-        <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
-
-        <link rel="icon" type="image/png" href="{% static 'favicon/favicon.ico' %}">
+        <!--  -->
+        {% include "base/css.html" %}
         
-        <!-- <link rel="stylesheet" href="{% static 'styles/main.css' %}" -->
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg has-background-primary-light has-navbar-fixed-top" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="/"><strong>Events Application</strong></a>
-            </div>
-           
-            <div class="navbar-menu" id="navbarCollapse">
-                {% if request.user.is_authenticated %}
-                    <div class="navbar-start">
-                        <a href="/dashboard" class="navbar-item">Dashboard</a>
-                        <a href="{% url 'events:create_event' %}" class="navbar-item">Create New Events</a>
-                        <a href="{% url 'list_active_events' %}" class="navbar-item">Active Events</a>
-                        <a href="{% url 'list_expire_events' %}" class="navbar-item">Expire Events</a>
-                        <!-- <a href="{% url 'events:add_participant' %}" class="navbar-item">Join An Events</a> -->
-                        <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Created Events</a>
-                    </div>
-                {% endif %}
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            {% if request.user.is_authenticated %}
-                                <p><strong>Wellcome : {{ user.username }}</strong></p> &nbsp;&nbsp;&nbsp;
-                                <a href="{% url 'account_logout' %}" class="button is-danger">Log out</a>
-                            {% else %}
-                                <a href="{% url 'account_signup' %}" class="button is-primary">
-                                    <strong>Sign up</strong></a>
-                                <a href="{% url 'account_login' %}" class="button is-dark">Log in</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-        </nav>
-        <section class="section">
-            
-            {% if messages %}
-                {% for message in messages %}
-                    <article class="message is-{{ message.tags }}">
-                        <div class="message-body">
-                            {{ message }}
-                        </div>
-                    </article>
-                
-                {% endfor %}
-            {% endif %}
-            <br>
-            <!-- div for searh events date -->
-            <div class="align-content-center" style="background-color:transparent; height: 100%; width: 80%; margin: 30px;
-            padding: 10px; border-style: outset; border-radius: 20px; border-color: #aab5af; box-shadow: 2px 2px 4px 4px darkgray;" id="search-div" name="mydiv">
-                <form class="form-inline mt-2 mt-md-0" method="GET" action="{% url 'events:search_event_date' %}">
-                    <input class="form-control mr-sm-2" type="text" name='from' placeholder="Search Event Date from ..." value="{{request.GET.from}}" aria-label="Search">
-                    <input class="form-control mr-sm-2" type="text" name='to' placeholder="Search Event Date to ..." value="{{request.GET.to}}" aria-label="Search">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit" hidden>Search</button>
-                </form>
-            </div>
-        </section>
-       
+        <!--  -->
+        {% include "base/navbar.html" with brand_name=Events %}
+        
+        <!--  -->       
+        {% include "base/search_bar.html" %}
+        
+        <!--  -->
+        {% include "base/messages.html" %}
+        
+
         {% block content %}
         {% endblock %}
 
@@ -87,26 +34,12 @@
             </div>
         </footer>
 
-        <!-- scripts for VUE -->
-        <script src="{% static 'vue/vue.js' %}"></script>
-        <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-        <script src="https://cdnjs.cloudfare.com/ajax/libs/axios/0.19.2/axios.min.js">
-        </script>
- 
-        <script>
-    
-            var vue = new Vue ({
-                el: '#footer-vue',
-                delimiters: ['[', ']'],
-                data: {
-                    msg: ' coded by Amr Aly',
-                    image: "{% static 'img/2.png' %}",
-                },
-            });
-
-        </script>
+        <!--  -->
+        {% include "base/js.html" %}
+        
 
         {% block scripts %}
         {% endblock  %}
+
     </body>
 </html>

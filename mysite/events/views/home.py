@@ -92,18 +92,18 @@ def list_expire_events(request):
     return render(request, 'home/list_expire_events.html', context)
 
 
-@login_required
-def user_active_events(request, user): # 
-    ''' Handleing all active(not expire) events and attended for a specific user '''
-    inner = Event.objects.filter(user=user, eventdate__lt=date.today())
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
+# @login_required
+# def user_active_events(request, user): # 
+#     ''' Handleing all active(not expire) events and attended for a specific user '''
+#     inner = Event.objects.filter(user=user, eventdate__lt=date.today())
+#     qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
     
-    table = ParticipantTable(qs, exculde='edite')
-    table.paginate(page=request.GET.get('page', 1), per_page=10)
-    context = {
-        'user_active_events_table': table,
-    }
-    return render(request, 'home/tables/user_active_events.html', context)
+#     table = ParticipantTable(qs, exculde='edite')
+#     table.paginate(page=request.GET.get('page', 1), per_page=10)
+#     context = {
+#         'user_active_events_table': table,
+#     }
+#     return render(request, 'home/tables/user_active_events.html', context)
 
 
 @login_required

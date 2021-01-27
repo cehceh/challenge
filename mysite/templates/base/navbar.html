@@ -1,0 +1,40 @@
+
+
+
+<nav class="navbar navbar-expand-lg has-background-primary-light has-navbar-fixed-top" role="navigation" aria-label="main navigation">
+    <!-- <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/"><strong>Events Application</strong></a>
+    </div>
+    
+   
+    <div class="navbar-menu" id="navbarCollapse">
+        {% if request.user.is_authenticated %}
+            <div class="navbar-start">
+                <a href="/dashboard" class="navbar-item">Dashboard</a>
+                <a href="{% url 'events:create_event' %}" class="navbar-item">Create New Events</a>
+                <a href="{% url 'list_active_events' %}" class="navbar-item">Active Events</a>
+                <a href="{% url 'list_expire_events' %}" class="navbar-item">Expire Events</a>
+                <a href="{% url 'events:table_event' user.id %}" class="navbar-item">Your Created Events</a>
+            </div>
+        {% endif %}
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    {% if request.user.is_authenticated %}
+                        <p><strong>Wellcome : {{ user.username }}</strong></p> &nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'account_logout' %}" class="button is-danger">Log out</a>
+                    {% else %}
+                        <a href="{% url 'account_signup' %}" class="button is-primary">
+                            <strong>Sign up</strong></a>
+                        <a href="{% url 'account_login' %}" class="button is-dark">Log in</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
