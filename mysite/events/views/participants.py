@@ -70,7 +70,11 @@ def edit_participant(request, id):
 def user_participant_table(request, user):
     ''' Handling all Attended events for a user '''
     inner = Event.objects.filter(eventdate__lt=date.today())
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
+    exclude_deleted = Event.objects.filter(is_deleted=True)
+    qs = Participant.objects.select_related('event') \
+                            .exclude(event_id__in=inner) \
+                            .exclude(event_id__in=exclude_deleted) \
+                            .filter(user=user).attended().order_by('-events_event.eventdate')
 
     # qs = Participant.objects.filter(user=user).attended().order_by('-id')
     table = ParticipantTable(qs, exclude='join, edit')
@@ -86,7 +90,10 @@ def table_participant(request):
     ''' Handling all attended events for all users '''
     inner = Event.objects.filter(eventdate__lt=date.today())
     exclude_deleted = Event.objects.filter(is_deleted=True)
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).exclude(event_id__in=exclude_deleted).attended().order_by('-events_event.eventdate')
+    qs = Participant.objects.select_related('event') \
+                            .exclude(event_id__in=inner) \
+                            .exclude(event_id__in=exclude_deleted) \
+                            .attended().order_by('-events_event.eventdate')
     # print(qs)
     table = ParticipantTable(qs, exclude='edit, join, withdraw')
     table.paginate(page=request.GET.get('page',1), per_page=10)
@@ -99,7 +106,11 @@ def table_participant(request):
 def withdraw_table(request, user):
     ''' Method to display all withdraw events of spcefic user '''
     inner = Event.objects.filter(eventdate__lt=date.today())
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).withdraw().order_by('-events_event.eventdate')
+    exclude_deleted = Event.objects.filter(is_deleted=True)
+    qs = Participant.objects.select_related('event') \
+                            .exclude(event_id__in=inner) \
+                            .exclude(event_id__in=exclude_deleted) \
+                            .filter(user=user).withdraw().order_by('-events_event.eventdate')
     
     table = ParticipantTable(qs, exclude='user, edit, withdraw')
     table.paginate(page=request.GET.get('page', 1), per_page=10)

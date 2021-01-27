@@ -108,11 +108,11 @@ def list_expire_events(request):
 
 @login_required
 def user_expire_events(request, user):
-    ''''''
-    inner = Event.objects.filter(user=user, eventdate__gte=date.today())
+    ''' All expire events of specific user '''
+    inner = Event.objects.filter(eventdate__gte=date.today())
     qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).order_by('-events_event.eventdate')
     
-    table = ParticipantTable(qs, exculde='edite')
+    table = ParticipantTable(qs, exclude='user, join, withdraw')
     table.paginate(page=request.GET.get('page', 1), per_page=10)
     context = {
         'user_expire_events_table': table,

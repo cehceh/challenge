@@ -29,9 +29,7 @@
                 <footer class="card-footer">
                     <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
                         Add New Event</a>&nbsp;&nbsp;
-                    <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
-                        Edit Events</a>&nbsp;&nbsp; -->
-                        <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-primary">
+                    <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-primary">
                             Display Your created Events</a>
                 </footer>
                 
@@ -58,10 +56,10 @@
                 </div>
 
                 <footer class="card-footer">
-                    <a class="card-footer-item button is-dark" href="{% url 'events:create_event' %}">
+                    <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
                         Add New Event</a>&nbsp;&nbsp;
-                    <!-- <a href="{% url 'events:table_event' user.id %}" class="button is-info">
-                        Edit Events</a>&nbsp;&nbsp; -->
+                    <!-- <a class="card-footer-item button is-danger" href="{% url 'events:user_expire_events' user.id %}">
+                        Your Expire Event</a>&nbsp;&nbsp; -->
                     <a href="{% url 'list_active_events' %}" class="card-footer-item button is-primary">
                         Join Active Events</a>
                     <!-- <a href="{% url 'events:user_participant_table' user.id %}" class="card-footer-item">
@@ -99,7 +97,7 @@
                         Edit Your Events
                     </a>&nbsp;&nbsp;   
                     <a href="{% url 'list_expire_events' %}" class="card-footer-item button is-danger">
-                        Display Expire Events
+                        Display All Expire Events
                     </a>
                 </footer>
                 
@@ -125,12 +123,12 @@
                 </div>
 
                 <footer class="card-footer">
-                    <a class="button is-dark card-footer-item" href="{% url 'events:create_event' %}">
-                        Add New Event</a>&nbsp;&nbsp;
                     <!-- <a href="{% url 'events:table_event' user.id %}" class="card-footer-item button is-info">
                         Edit Events</a>&nbsp;&nbsp; -->
                     <a href="{% url 'events:table_deleted' user.id %}" class="card-footer-item button is-primary">
-                        Reutrn Your Deleted Event</a>
+                        Reutrn Your Deleted Event</a> &nbsp;&nbsp;
+                    <a class="card-footer-item button is-danger" href="{% url 'events:user_expire_events' user.id %}">
+                        Your Expire Event</a>
                 </footer>
                 
             </div>

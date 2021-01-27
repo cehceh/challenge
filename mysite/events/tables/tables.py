@@ -15,14 +15,14 @@ class EventTable(tables.Table):
         verbose_name=u'Event Title')
 
     eventdate = tables.TemplateColumn( '{{record.eventdate}}',
-        verbose_name=u'Event Date', footer="Amount of events",)
+        verbose_name=u'Event Date', footer="Amount of events")
 
     description = tables.TemplateColumn('{{record.discription}}',
         verbose_name=u'Discription', visible=False)
 
     join = tables.TemplateColumn(
         '<a class="btn btn-outline-success" href="{% url \'events:join_specific_event\' record.id record.user_id %}">Join</a>',
-        verbose_name=u'Join Event',)
+        verbose_name=u'Join Event', footer=countrow)
     
     edit = tables.TemplateColumn(
         '<a class="btn btn-outline-primary" href="{% url \'events:edit_event\' record.id %}">Edit Event</a>',
@@ -46,16 +46,9 @@ class EventTable(tables.Table):
         template_name = 'django_tables2/bootstrap4.html'
         fields = ('user', 'title', 'eventdate', 'description', 'join', 'edit', 'delete', 're_del')
 
+
 class ParticipantTable(tables.Table):
-    def render_participants(self, value):
-        # count_participant = Participant.objects.values('event').filter(event__id=event_id).aggregate(Count('user')) # this is what we want 
-        count = Participant.objects.values('event') \
-                                    .annotate(ncount=Count('user'))\
-                                    .filter(attended=True)
-        value = (c.ncount for c in count)
-        return ("<b>{}</b>", value)
-
-
+    
     user = tables.TemplateColumn('{{record.user.username}}', 
         verbose_name=u'Joined User Name',)
 
@@ -68,14 +61,9 @@ class ParticipantTable(tables.Table):
         verbose_name=u'Withdraw',)
 
     edit = tables.TemplateColumn(
-        '<a class="btn btn-outline-success" href="{% url \'events:edit_participant\' record.id %}">Edit Participant</a>',
-        verbose_name=u'Edit Participant',)
+        '<a class="btn btn-outline-success" href="{% url \'events:edit_event\' record.event.id %}">Edit Event</a>',
+        verbose_name=u'Edit Event',)
     
-    # def __init__(self, *args, **kawargs):
-    #     super(EventTable, self).__init__(*args, **kawargs)
-        
-
-
     class Meta:
         model = Participant
         template_name = 'django_tables2/bootstrap4.html'
