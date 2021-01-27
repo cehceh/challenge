@@ -69,14 +69,11 @@ def edit_participant(request, id):
 @login_required
 def user_participant_table(request, user):
     ''' Handling all Attended events for a user '''
-    inner = Event.objects.filter(eventdate__lt=date.today())
-    exclude_deleted = Event.objects.filter(is_deleted=True)
+    # get all attended event not expire, not deleted for a user 
     qs = Participant.objects.select_related('event') \
-                            .exclude(event_id__in=inner) \
-                            .exclude(event_id__in=exclude_deleted) \
-                            .filter(user=user).attended().order_by('-events_event.eventdate')
+                            .filter(event__eventdate__gte=date.today(), event__is_deleted=False, user=user) \
+                            .attended().order_by('-events_event.eventdate')
 
-    # qs = Participant.objects.filter(user=user).attended().order_by('-id')
     # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
     page_no = request.GET.get('pageno')
     if page_no == None or page_no == '' or int(page_no) == 0:
@@ -94,11 +91,10 @@ def user_participant_table(request, user):
 @login_required
 def table_participant(request):
     ''' Handling all attended events for all users '''
-    inner = Event.objects.filter(eventdate__lt=date.today())
-    exclude_deleted = Event.objects.filter(is_deleted=True)
+
+    # get all attended event not expire, not deleted for all users
     qs = Participant.objects.select_related('event') \
-                            .exclude(event_id__in=inner) \
-                            .exclude(event_id__in=exclude_deleted) \
+                            .filter(event__eventdate__gte=date.today(), event__is_deleted=False) \
                             .attended().order_by('-events_event.eventdate')
     
     # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
@@ -115,15 +111,14 @@ def table_participant(request):
     }
     return render(request, 'events/tables/all_participant_table.html', context)
 
+
 @login_required
 def withdraw_table(request, user):
     ''' Method to display all withdraw events of spcefic user '''
-    inner = Event.objects.filter(eventdate__lt=date.today())
-    exclude_deleted = Event.objects.filter(is_deleted=True)
+
     qs = Participant.objects.select_related('event') \
-                            .exclude(event_id__in=inner) \
-                            .exclude(event_id__in=exclude_deleted) \
-                            .filter(user=user).withdraw().order_by('-events_event.eventdate')
+                            .filter(event__eventdate__gte=date.today(), event__is_deleted=False, user=user) \
+                            .withdraw().order_by('-events_event.eventdate')
     
     # page_no to enable users to specify the number of pagination pages ==>> in templates you will find an input(Edit pagination pages here)   
     page_no = request.GET.get('pageno')

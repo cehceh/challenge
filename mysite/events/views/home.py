@@ -27,7 +27,7 @@ def list_active_events(request):
     
     ################################################################################################################################################
     user_id = request.user.id
-    event_time = date.today()#datetime.now()  # or you can use ==>>  date.today()
+    event_time = date.today()  # or you can use ==>>  datetime.now()
 
     ## .active() means not deleted take a look at models.py
     event = Event.objects.filter(eventdate__gte=event_time).active().order_by('-eventdate') 
@@ -65,7 +65,6 @@ def list_active_events(request):
 def list_expire_events(request):
     ''' Handeling expire events for all users '''
     today = date.today()
-    # event_time = timezone.now().date()
     expire_events = Event.objects.filter(eventdate__lt=today).order_by('-eventdate')
     
     paginator = Paginator(expire_events, 4) 
@@ -83,7 +82,7 @@ def list_expire_events(request):
     count = Participant.objects.values('event') \
                                 .annotate(ncount=Count('user'))\
                                 .filter(attended=True)  # to get participants count 
-    # print(expire_events)
+    
     context= {
         'event_page': event_page,
         'page': page,
@@ -92,26 +91,16 @@ def list_expire_events(request):
     return render(request, 'home/list_expire_events.html', context)
 
 
-# @login_required
-# def user_active_events(request, user): # 
-#     ''' Handleing all active(not expire) events and attended for a specific user '''
-#     inner = Event.objects.filter(user=user, eventdate__lt=date.today())
-#     qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).attended().order_by('-events_event.eventdate')
-    
-#     table = ParticipantTable(qs, exculde='edite')
-#     table.paginate(page=request.GET.get('page', 1), per_page=10)
-#     context = {
-#         'user_active_events_table': table,
-#     }
-#     return render(request, 'home/tables/user_active_events.html', context)
-
-
 @login_required
 def user_expire_events(request, user):
     ''' All expire events of specific user '''
-    inner = Event.objects.filter(eventdate__gte=date.today())
-    qs = Participant.objects.select_related('event').exclude(event_id__in=inner).filter(user=user).order_by('-events_event.eventdate')
+
+    # get all expire events ID of a specific user 
+    qs = Participant.objects.select_related('event') \
+                            .filter(event__eventdate__lt=date.today(), user=user) \
+                            .order_by('-events_event.eventdate')
     
+    # to make pagination input in templates 
     page_no = request.GET.get('pageno')
     if page_no == None or page_no == '' or int(page_no) == 0:
         table = ParticipantTable(qs, exclude='user, join, withdraw')
@@ -119,7 +108,7 @@ def user_expire_events(request, user):
     else:
         table = ParticipantTable(qs, exclude='user, join, withdraw')
         table.paginate(page=request.GET.get('page', 1), per_page=page_no)
-        
+
     context = {
         'user_expire_events_table': table,
     }

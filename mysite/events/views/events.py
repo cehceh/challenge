@@ -10,14 +10,12 @@ from ..forms import EventForm
 from events.tables.tables import EventTable, ParticipantTable
 from django.contrib.auth.decorators import login_required
 
-
 # Create your views here.
 
 @login_required   # to force user to be  login and prevent reach to this url without login 
 def create_event(request):
     ''' Method to handel event creation '''
-    # bound_form = EventForm(data={'user': user_id}) # to pass a current user to user field in the form
-    
+
     if request.method == 'POST':
         form =  EventForm(request.POST or None)
         if form.is_valid():
@@ -32,7 +30,7 @@ def create_event(request):
             eventid = saving_form.id
             user = saving_form.user.id
             Participant.objects.create(event_id=eventid, user_id=user, attended=True) # to make join to event automatically
-            print(eventid)
+            # print(eventid)
             
             # SQL raw is a good stuff if we use 'where' statment but django ORM win
             # cursor = connection.cursor()
@@ -53,6 +51,7 @@ def create_event(request):
 @login_required
 def edit_event(request, id):
     ''' Method to handel update to spcefic event '''
+
     user_id = request.user.id
     count_users =  Participant.objects.filter().participants_per_event(id) # Get the amount of participants look at models
 
@@ -77,7 +76,11 @@ def edit_event(request, id):
 @login_required
 def table_event(request, user):
     ''' Method to display all events of spcefic user '''
+
+    # get all events that is not expire , not deleted for specific user
     qs = Event.objects.filter(eventdate__gte=date.today(), user_id=user, is_deleted=False).order_by('-eventdate')
+    
+    # control the pagination number  
     page_no = request.GET.get('pageno')
     if page_no == None or page_no == '' or int(page_no) == 0:
         table = EventTable(qs, exclude='re_del')

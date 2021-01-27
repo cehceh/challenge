@@ -15,7 +15,7 @@ def search_event_date(request):
     search_from= request.GET.get('from')
     search_to = request.GET.get('to')
 
-    try: 
+    try: # here we catch unformated date 
         if search_from != datetime.strptime(search_from, "%Y-%m-%d").strftime('%Y-%m-%d') or search_from is None:
             raise ValueError
         elif search_to != datetime.strptime(search_to, "%Y-%m-%d").strftime('%Y-%m-%d') or search_to is None:
