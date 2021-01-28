@@ -6,7 +6,7 @@
 <div class="container">
     <h1 class="title">Log in</h1>
     
-    <form method="post" action="/">
+    <form method="post">
         {% csrf_token %}
 
         {{ form | crispy }}
