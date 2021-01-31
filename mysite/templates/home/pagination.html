@@ -28,7 +28,7 @@
       {% if page.has_other_pages %}
         <ul class="pagination">
           {% if page.has_previous %}
-            <li><a class="button is-primary" href="?page={{ page.previous_page_number }}" id="laquo-prev">&laquo;</a></li>
+            <li><a class="button is-primary" href="?page={{ page.previous_page_number }}" id="laquo-prev"> &laquo; previous</a></li>
               <!-- <input type="button" onclick="window.location.href='?page={{ page.previous_page_number }}';" id="laquo-prev" value="&laquo;" /> -->
           {% else %}
             <!-- <input type="button" class="disabled" value="&laquo;" /> -->
@@ -46,7 +46,7 @@
           {% endfor %}
           {% if page.has_next %}
             <!-- <input type="button" onclick="window.location.href='?page={{ page.next_page_number }}';" value="&raquo;" /> -->
-            <li> <a class="button is-primary" type="button" href="?page={{ page.next_page_number }}">&raquo;</a></li>
+            <li> <a class="button is-primary" type="button" href="?page={{ page.next_page_number }}">next &raquo; </a></li>
           {% else %}
             <!-- <input type="button" class="disabled" value="&raquo;" /> -->
             <li class="button is-primary disabled"><span>&raquo;</span></li>

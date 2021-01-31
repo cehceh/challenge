@@ -1,7 +1,7 @@
 
 
 <!-- div for searh events date -->
-<div class="align-content-center" style="background-color:transparent; height: 100%; width: 95%; margin: 30px;
+<div class="align-content-center" style="background-color:transparent; height: 100%; width: 100%; margin: 30px;
 padding: 10px; border-style: outset; border-radius: 20px; border-color: #aab5af; box-shadow: 2px 2px 4px 4px darkgray;" id="search-div" name="mydiv">
     <form class="form-inline mt-2 mt-md-0" method="GET" action="{% url 'events:search_event_date' %}">
         <input class="form-control mr-sm-2" type="text" name='from' placeholder="Search Event Date from ..." value="{{request.GET.from}}" aria-label="Search">

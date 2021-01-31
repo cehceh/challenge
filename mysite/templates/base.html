@@ -3,36 +3,49 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
         <title>Events Application</title>
 
         <!--  -->
         {% include "base/css.html" %}
-        
+        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> -->
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     </head>
     <body>
 
         <!--  -->
         {% include "base/navbar.html" with brand_name=Events %}
         
-        <!--  -->       
-        {% include "base/search_bar.html" %}
-        
-        <!--  -->
-        {% include "base/messages.html" %}
-        
+        <div class="container">
+            <!--  -->       
+            {% include "base/search_bar.html" %}
+            
+            <!--  -->
+            {% include "base/messages.html" %}
+            
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
+            
+        </div>
 
         {% include "home/pagination.html" with page=event_page %}
+        <br>
+        <br>
+        <br>
 
-
-        <footer class="footer" id="footer-vue">
+        <!-- <footer class="footer" id="footer-vue">
             <div class="content has-text-centered">
                 <img :src="image"> <p><strong>Events Project</strong> [ msg ]</p> 
             </div>
-        </footer>
+        </footer> -->
+        <nav class="navbar fixed-bottom navbar-dark bg-dark" id="footer-vue">
+            <a class="navbar-brand" href="#">&copy; Amr Aly {% now ' Y' %}</a>
+            <div class="navbar-brand">
+                <!-- <img :src="image"> <p><strong>Events Project</strong> [ msg ]</p>  -->
+            </div>
+        </nav>
 
         <!--  -->
         {% include "base/js.html" %}
